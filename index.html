@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validated Task Manager</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Task Manager</h1>
+    </header>
+
+    <!-- DEVELOPER A: Add your form structure here -->
+    <section class="form-section">
+      <h2>Create Task</h2>
+      <form id="task-form">
+        <!-- 
+          Inputs for:
+          - Task Title (min 3 chars required)
+          - Priority Level (Dropdown: High, Medium, Low. Default: Medium)
+          - Description (textarea, optional)
+          - Submit Button (disabled by default)
+        -->
+      </form>
+    </section>
+
+    <!-- DEVELOPER B: The task list container -->
+    <section class="list-section">
+      <h2>Task List</h2>
+      <!-- Tasks will be rendered here dynamically -->
+      <div id="task-list-container">
+        <ul id="task-list"></ul>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

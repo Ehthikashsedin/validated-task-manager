@@ -1,0 +1,46 @@
+/* DEVELOPER A: 
+ * Design the app layout and write all necessary styles.
+ * Focus on clear visual feedback for validation errors
+ * and distinct styling for different priority levels. 
+ */
+
+:root {
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --bg-color: #f7f9fc;
+  --text-color: #333;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Add validation visual feedback classes (e.g. .is-invalid) */
+.is-invalid {
+  border-color: #e53e3e;
+}
+
+.error-message {
+  color: #e53e3e;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+/* Priority variations */
+.priority-high {
+  border-left: 4px solid #e53e3e;
+}
+.priority-medium {
+  border-left: 4px solid #dd6b20;
+}
+.priority-low {
+  border-left: 4px solid #38a169;
+}
