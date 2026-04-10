@@ -1,36 +1,47 @@
 # Validated Task Manager
 
-This repository contains the base structure for the Task Manager project. The project is already physically split into two independent halves to allow parallel development without merge conflicts.
+A complete, interactive Task Manager built with Vanilla JavaScript, focusing on real-time form validation, multi-level array sorting, DOM manipulation, event delegation, and `localStorage` for data persistence. 
 
-## Getting Started
+## Features
 
-1. Since we are using ES6 Modules (the `type="module"` in our `index.html`), opening `index.html` directly via the `file://` protocol will result in a CORS error. 
-2. You must run this via a local server. If you use VSCode, install the **Live Server** extension and click "Go Live", or run `python -m http.server` / `npx serve` in this directory.
+* **Real-time Form Validation**: Ensures task titles are unique and meet the minimum length requirement dynamically as you type.
+* **Smart Priority Levels**: Selection (High, Medium, Low) that auto-defaults to "Medium" for quick input.
+* **Data Persistence**: Tasks are saved automatically using `localStorage`, meaning data persists even if you refresh or close the browser.
+* **Multi-Level Sorting**: 
+  - Primary Sort: Grouped by Priority (High > Medium > Low).
+  - Secondary Sort: Within each priority group, the newest tasks appear at the top.
+* **Event Delegation**: Highly efficient DOM management where a single parent event listener intercepts and handles all "Mark Complete" and "Delete" actions across the dynamic task list.
+* **Component-Based Vanilla JS**: The app leverages ES6 modules to split application concerns logically into sub-files, creating a maintainable, clean architecture without the need for heavy external frameworks.
 
-## Project Split & Responsibilities
+## Setup & Running the Application
 
-### Developer A: Forms, Validation & Design
-**Files to edit:** 
-- `index.html` (Form section)
-- `css/styles.css`
-- `js/formHandler.js`
+Because this application uses native JavaScript ES6 Modules (`type="module"` in `index.html`), opening the HTML file directly in the browser via `file://` will cause a CORS error. You must serve these files through a local server.
 
-**Your Tasks:**
-- Structure the "Create Task" form in `index.html`.
-- Style the UI (design, color scheme, feedback classes like `.is-invalid`).
-- Write the input validation logic in `formHandler.js` (Title min 3 chars, uniqueness check).
-- Collect the data and pass the `newTask` object to the submit callback.
+### Using VSCode (Recommended)
+1. Install the **Live Server** extension.
+2. Open the project folder in VSCode.
+3. Right-click on `index.html` and select **"Open with Live Server"**.
 
-### Developer B: Data Management, Sorting & UI Rendering
-**Files to edit:**
-- `index.html` (Task List section)
-- `js/taskStore.js`
-- `js/listRenderer.js`
+### Using Node.js
+If you have Node.js installed, you can quickly spawn a server in your terminal:
+```bash
+npx serve .
+```
 
-**Your Tasks:**
-- In `taskStore.js`, implement `localStorage` saving/retrieving.
-- Write the Multi-level sorting logic in `taskStore.js`.
-- In `listRenderer.js`, build the DOM elements to display the tasks.
-- Attach the event delegation listener to handle "Delete" and "Complete" buttons.
+### Using Python
+If you have Python installed, you can use its built-in module:
+```bash
+python3 -m http.server 8000
+```
+Then navigate to `http://localhost:8000` in your browser.
 
-Happy Coding!
+## Project Structure & Architecture
+
+To allow seamless teamwork and avoid Git merge conflicts, the codebase is physically separated into logical modules:
+
+* `index.html` — The template containing the static UI sections for the form and the tasks wrapper.
+* `css/styles.css` — Visual styles and CSS-based priority feedback logic.
+* `js/main.js` — The application's entry point that coordinates data retrieval and bindings when the DOM is fully loaded.
+* `js/formHandler.js` — Governs form validations (lengths, uniqueness checks). Collects DOM input values to construct new objects.
+* `js/taskStore.js` — Controls the Data layer. Uses `localStorage` interfaces, manipulates task arrays, and dictates the multi-level sorting equations.
+* `js/listRenderer.js` — Controls the Presentation layer for tasks. Iterates sorted arrays to inject HTML dynamically into the DOM, while maintaining centralized event listeners.
