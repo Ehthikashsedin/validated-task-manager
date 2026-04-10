@@ -1,47 +1,44 @@
-# Validated Task Manager
+# Validated Task Manager (Planning & Work Split)
 
-A complete, interactive Task Manager built with Vanilla JavaScript, focusing on real-time form validation, multi-level array sorting, DOM manipulation, event delegation, and `localStorage` for data persistence. 
+This repository serves as the shared workspace for our Vanilla JavaScript Task Manager project. The goal is to build an interactive application focusing on real-time validation, DOM manipulation, multi-level sorting, and `localStorage`.
 
-## Features
+To ensure we can work simultaneously without running into Git merge conflicts, the application architecture has been strictly decoupled into two distinct domains. 
 
-* **Real-time Form Validation**: Ensures task titles are unique and meet the minimum length requirement dynamically as you type.
-* **Smart Priority Levels**: Selection (High, Medium, Low) that auto-defaults to "Medium" for quick input.
-* **Data Persistence**: Tasks are saved automatically using `localStorage`, meaning data persists even if you refresh or close the browser.
-* **Multi-Level Sorting**: 
-  - Primary Sort: Grouped by Priority (High > Medium > Low).
-  - Secondary Sort: Within each priority group, the newest tasks appear at the top.
-* **Event Delegation**: Highly efficient DOM management where a single parent event listener intercepts and handles all "Mark Complete" and "Delete" actions across the dynamic task list.
-* **Component-Based Vanilla JS**: The app leverages ES6 modules to split application concerns logically into sub-files, creating a maintainable, clean architecture without the need for heavy external frameworks.
+---
 
-## Setup & Running the Application
+## 👨‍💻 Developer A: UI, Forms, and State Validation
+**Primary Files:** `index.html` (Form section), `css/styles.css`, `js/formHandler.js`
 
-Because this application uses native JavaScript ES6 Modules (`type="module"` in `index.html`), opening the HTML file directly in the browser via `file://` will cause a CORS error. You must serve these files through a local server.
+**The Plan:**
+1. **Design & Layout**: Build out the structural HTML skeleton and write the CSS to make the application look modern. Create specific visual feedback classes (e.g. `.is-invalid` borders for errored inputs).
+2. **Form Interaction**: Wire up the `task-title`, `task-priority`, and `task-description` inputs.
+3. **Real-time Validation**: 
+   - Listen to active keystrokes on the title input.
+   - Enforce a minimum length of 3 characters.
+   - Call the centralized uniqueness function to ensure the entered title doesn't already exist.
+   - Restrict the "Add Task" button dynamically (disabled until fully valid).
+4. **Data Dispatch**: Upon successful form submission, construct the new task object and dispatch it to Developer B's data store.
 
-### Using VSCode (Recommended)
-1. Install the **Live Server** extension.
-2. Open the project folder in VSCode.
-3. Right-click on `index.html` and select **"Open with Live Server"**.
+---
 
-### Using Node.js
-If you have Node.js installed, you can quickly spawn a server in your terminal:
-```bash
-npx serve .
-```
+## 👨‍💻 Developer B: Data Management & List Rendering
+**Primary Files:** `js/taskStore.js`, `js/listRenderer.js`
+*(Note: Developer B's storage and DOM insertion code has been implemented!)*
 
-### Using Python
-If you have Python installed, you can use its built-in module:
-```bash
-python3 -m http.server 8000
-```
-Then navigate to `http://localhost:8000` in your browser.
+**The Plan:**
+1. **Data Persistence**: Utilize the browser's `localStorage` to serialize, save, and read the master task array so items survive page reloads.
+2. **Sorting Logic**: Write a heavy multi-level sorting function that organizes the retrieved list computationally:
+   - Primary Sort: Priority (High = 3 > Medium = 2 > Low = 1).
+   - Secondary Sort: Chronological (Newest tickets pushed to the top of their respective group).
+3. **Dynamic UI Rendering**: Iterate the strictly sorted array into the DOM. Render *only* the Title and Priority badge on the card, internally concealing the task Description and Timestamp.
+4. **Event Delegation**: Attach a highly-efficient single click listener on the parent list container to intercept and process "Mark Complete" and "Delete" clicks via dataset IDs.
 
-## Project Structure & Architecture
+---
 
-To allow seamless teamwork and avoid Git merge conflicts, the codebase is physically separated into logical modules:
+## Getting Started Locally
 
-* `index.html` — The template containing the static UI sections for the form and the tasks wrapper.
-* `css/styles.css` — Visual styles and CSS-based priority feedback logic.
-* `js/main.js` — The application's entry point that coordinates data retrieval and bindings when the DOM is fully loaded.
-* `js/formHandler.js` — Governs form validations (lengths, uniqueness checks). Collects DOM input values to construct new objects.
-* `js/taskStore.js` — Controls the Data layer. Uses `localStorage` interfaces, manipulates task arrays, and dictates the multi-level sorting equations.
-* `js/listRenderer.js` — Controls the Presentation layer for tasks. Iterates sorted arrays to inject HTML dynamically into the DOM, while maintaining centralized event listeners.
+Because we have cleanly partitioned our logic using ES6 Modules (`type="module"`), launching the `index.html` file natively in your browser via `file://` will instantly throw a CORS error. 
+You must spin up a local development server:
+- **VSCode Users**: Install the **Live Server** extension and tap "Go Live" at the bottom right.
+- **Node Users**: Execute `npx serve .` inside this root directory.
+- **Python Users**: Execute `python3 -m http.server 8000` inside this root directory.
