@@ -36,10 +36,10 @@ export function isTitleUnique(title) {
 
 
 export function getSortedTasks() {
-  const tasks = getTasks();
+  const tasks = [...getTasks()];
 
   // Priority order mapping
-  const priorityMap = { 'high': 3, 'medium': 2, 'low': 1 };
+  const priorityMap = { high: 3, medium: 2, low: 1 };
 
   return tasks.sort((a, b) => {
     // Primary Sort: Priority (High > Medium > Low)

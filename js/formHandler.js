@@ -15,37 +15,38 @@ export function setupForm(onSubmitCallback) {
 
     function validateForm() {
         const title = titleInput.value.trim();
-        const description = descriptionInput.value.trim();
         const priority = priorityInput.value;
 
-        const isDuplicate = !isTitleUnique(title);
+        const titleTooShort = title.length < 3;
+        const isDuplicate = title.length >= 3 && !isTitleUnique(title);
 
-        const isTitleValid = title.length > 3 && !isDuplicate;
-        const isDescriptionValid = description.length > 0;
-        const isPriorityValid = priority !== "";
+        const isTitleValid = title.length >= 3 && !isDuplicate;
+        const isPriorityValid = priority === 'High' || priority === 'Medium' || priority === 'Low';
 
-        if (title.length > 0 && title.length <= 3) {
-            titleError.textContent = "Title must be > 3 characters.";
+        if (title.length === 0) {
+            titleError.textContent = 'Title is required (minimum 3 characters).';
             titleError.style.display = 'block';
             titleInput.classList.add('is-invalid');
-        } else if (isDuplicate && title.length > 0) {
-            titleError.textContent = "Task already exists!";
+        } else if (titleTooShort) {
+            titleError.textContent = 'Title must be at least 3 characters.';
+            titleError.style.display = 'block';
+            titleInput.classList.add('is-invalid');
+        } else if (isDuplicate) {
+            titleError.textContent = 'A task with this title already exists.';
             titleError.style.display = 'block';
             titleInput.classList.add('is-invalid');
         } else {
-            titleError.textContent = "";
+            titleError.textContent = '';
             titleError.style.display = 'none';
             titleInput.classList.remove('is-invalid');
         }
 
-        const isFormValid = isTitleValid && isDescriptionValid && isPriorityValid;
+        const isFormValid = isTitleValid && isPriorityValid;
 
         submitBtn.disabled = !isFormValid;
-        submitBtn.style.opacity = isFormValid ? '1' : '0.5';
     }
 
     titleInput.addEventListener('input', validateForm);
-    descriptionInput.addEventListener('input', validateForm);
     priorityInput.addEventListener('change', validateForm);
 
 
@@ -58,19 +59,18 @@ export function setupForm(onSubmitCallback) {
             id: Date.now().toString(),
             title: titleInput.value.trim(),
             priority: priorityInput.value,
-            description: descriptionInput.value.trim(),
+            description: descriptionInput ? descriptionInput.value.trim() : '',
             createdAt: Date.now(),
             completed: false
         };
 
-
-        console.log("New Task Created:", newTask);
 
         if (typeof onSubmitCallback === 'function') {
             onSubmitCallback(newTask);
         }
 
         form.reset();
+        priorityInput.value = 'Medium';
         validateForm();
     });
 

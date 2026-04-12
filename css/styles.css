@@ -97,7 +97,12 @@ input:focus, select:focus, textarea:focus {
     color: white;
 }
 
-.btn-primary:hover { background: var(--primary-hover); }
+.btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 
 .btn-secondary {
     background: #e5e7eb;
