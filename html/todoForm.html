@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Todo App</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>  
+
+<div class="container">
+    <h1>Todo App</h1>
+
+    <div id="listView">
+        <button id="btnCreate" class="btn btn-outline">+ Create New Task</button>
+        <div id="tasksContainer">
+            <p  class="empty-message" style="text-align: center; color: #6b7280;">No tasks yet. Click create to start!</p>
+        </div>
+    </div>
+
+    <div id="formView" class="hidden">
+        <div class="card">
+            <h2 class="form-title">New Task</h2>
+            <form id="todoForm">
+                
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" placeholder="What needs to be done?" autocomplete="off">
+                    <span id="title-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="priority">Priority</label>
+                    <select id="priority">
+                        <option value="">Select Priority</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="4" placeholder="Add some details..."></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="submitBtn" class="btn btn-primary">Save Task</button>
+                    <button type="button" id="btnCancel" class="btn btn-secondary">Cancel</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="../js/main.js"></script>
+</body>
+</html>
