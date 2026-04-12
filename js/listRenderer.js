@@ -1,46 +1,57 @@
-/**
- * DEVELOPER B: UI Rendering for Task List
- */
+
 import { getSortedTasks, deleteTask, completeTask } from './taskStore.js';
 
 export function renderList() {
   const listContainer = document.getElementById('task-list');
   if (!listContainer) return;
 
-  const tasks = getSortedTasks(); // Get the sorted tasks to display
-
-  // 1. Clear the current list container
+  const tasks = getSortedTasks();
   listContainer.innerHTML = '';
 
-  // 2. Iterate over the tasks and display them.
-  //    Display ONLY Title and Priority. Description/CreatedAt remain hidden.
-  //    Add buttons or icons for "Delete" and "Mark Complete".
-  
-  // Example structure to append:
-  /*
-    <li class="task-item priority-high" data-id="123">
-      <span>Task Title</span>
-      <button class="delete-btn">Delete</button>
-      <button class="complete-btn">Complete</button>
-    </li>
-  */
-}
-
-// 3. Event Delegation Setup
-// Attach a single click listener to the `task-list-container`
-const container = document.getElementById('task-list-container');
-container?.addEventListener('click', (e) => {
-  // Check if target is a delete-btn
-  if (e.target.classList.contains('delete-btn')) {
-    // const id = find the parent item's data-id
-    // deleteTask(id);
-    // renderList();
+  if (tasks.length === 0) {
+    listContainer.innerHTML = '<li class="empty-message">No tasks currently. Yay!</li>';
+    return;
   }
 
-  // Check if target is a complete-btn
+  tasks.forEach(task => {
+    const li = document.createElement('li');
+    li.className = `task-item priority-${task.priority.toLowerCase()} ${task.completed ? 'completed' : ''}`;
+    li.dataset.id = task.id;
+
+    li.innerHTML = `
+      <div class="task-info">
+        <span class="title">${task.title}</span>
+        <span class="badge badge-${task.priority.toLowerCase()}">${task.priority}</span>
+      </div>
+      <div class="actions">
+        <button class="complete-btn" ${task.completed ? 'disabled' : ''}>
+          ${task.completed ? '✓' : 'Complete'}
+        </button>
+        <button class="delete-btn">Delete</button>
+      </div>
+    `;
+
+    listContainer.appendChild(li);
+  });
+}
+
+
+const container = document.getElementById('task-list-container');
+container?.addEventListener('click', (e) => {
+
+  if (e.target.classList.contains('delete-btn')) {
+    const taskItem = e.target.closest('.task-item');
+    if (taskItem && taskItem.dataset.id) {
+      deleteTask(taskItem.dataset.id);
+      renderList();
+    }
+  }
+
   if (e.target.classList.contains('complete-btn')) {
-    // const id = find the parent item's data-id
-    // completeTask(id);
-    // renderList();
+    const taskItem = e.target.closest('.task-item');
+    if (taskItem && taskItem.dataset.id) {
+      completeTask(taskItem.dataset.id);
+      renderList();
+    }
   }
 });

@@ -1,22 +1,13 @@
-/**
- * DEVELOPER B: Data Management & Persistence
- */
-
 const STORAGE_KEY = 'tasks_data';
-
-// Retrieve tasks from LocalStorage
 export function getTasks() {
-  // 1. Fetch tasks from localStorage using STORAGE_KEY
-  // 2. Parse the JSON array. Make sure to return an empty array if null
-  return []; 
+  const data = localStorage.getItem(STORAGE_KEY);
+  return data ? JSON.parse(data) : [];
 }
 
-// Save tasks to LocalStorage
 export function saveTasks(tasks) {
-  // 1. Stringify the tasks array and save to localStorage
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
 }
 
-// Add a new task
 export function addTask(newTask) {
   const tasks = getTasks();
   tasks.push(newTask);
@@ -24,24 +15,42 @@ export function addTask(newTask) {
 }
 
 export function deleteTask(taskId) {
-  // Implement logic to remove task by taskId
+  const tasks = getTasks();
+  const updatedTasks = tasks.filter(task => task.id !== taskId);
+  saveTasks(updatedTasks);
 }
 
 export function completeTask(taskId) {
-  // Implement logic to toggle task "completed" status
+  const tasks = getTasks();
+  const updatedTasks = tasks.map(task => 
+    task.id === taskId ? { ...task, completed: !task.completed } : task
+  );
+  saveTasks(updatedTasks);
 }
 
-// Shared helper for Developer A's validation
+
 export function isTitleUnique(title) {
   const tasks = getTasks();
   return !tasks.some(task => task.title.toLowerCase() === title.toLowerCase());
 }
 
 
-// 3. Multi-level Sorting Logic Function
 export function getSortedTasks() {
   const tasks = getTasks();
-  // Primary Sort: Priority (High > Medium > Low)
-  // Secondary Sort: Created Time (Newest first)
-  return tasks;
+
+  // Priority order mapping
+  const priorityMap = { 'high': 3, 'medium': 2, 'low': 1 };
+
+  return tasks.sort((a, b) => {
+    // Primary Sort: Priority (High > Medium > Low)
+    const prioA = priorityMap[a.priority?.toLowerCase()] || 0;
+    const prioB = priorityMap[b.priority?.toLowerCase()] || 0;
+
+    if (prioB !== prioA) {
+      return prioB - prioA;
+    }
+
+    // Secondary Sort: Created Time (Newest first)
+    return b.createdAt - a.createdAt;
+  });
 }
