@@ -6,7 +6,7 @@ To ensure we can work simultaneously without running into Git merge conflicts, t
 
 ---
 
-## 👨‍💻 Developer A: UI, Forms, and State Validation
+## Developer A: UI, Forms, and State Validation
 **Primary Files:** `index.html` (Form section), `css/styles.css`, `js/formHandler.js`
 
 **The Plan:**
@@ -21,7 +21,7 @@ To ensure we can work simultaneously without running into Git merge conflicts, t
 
 ---
 
-## 👨‍💻 Developer B: Data Management & List Rendering
+## Developer B: Data Management & List Rendering
 **Primary Files:** `js/taskStore.js`, `js/listRenderer.js`
 *(Note: Developer B's storage and DOM insertion code has been implemented!)*
 
@@ -35,10 +35,3 @@ To ensure we can work simultaneously without running into Git merge conflicts, t
 
 ---
 
-## Getting Started Locally
-
-Because we have cleanly partitioned our logic using ES6 Modules (`type="module"`), launching the `index.html` file natively in your browser via `file://` will instantly throw a CORS error. 
-You must spin up a local development server:
-- **VSCode Users**: Install the **Live Server** extension and tap "Go Live" at the bottom right.
-- **Node Users**: Execute `npx serve .` inside this root directory.
-- **Python Users**: Execute `python3 -m http.server 8000` inside this root directory.
