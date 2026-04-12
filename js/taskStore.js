@@ -20,13 +20,7 @@ export function saveTasks(tasks) {
 export function addTask(newTask) {
   const tasks = getTasks();
   tasks.push(newTask);
-  
-
-   // ✅ Sort tasks by priority (High → Low)
-    tasks.sort((a, b) => {
-        return priorityOrder[b.priority] - priorityOrder[a.priority];
-    });
-    saveTasks(tasks);
+  saveTasks(tasks);
 }
 
 export function deleteTask(taskId) {
@@ -38,12 +32,9 @@ export function completeTask(taskId) {
 }
 
 // Shared helper for Developer A's validation
-let tasks = []; // Or however you store them
 export function isTitleUnique(title) {
-    // Returns true if NO existing task has this title
-    return !tasks.some(t => t.title.toLowerCase() === title.toLowerCase());
-
-    
+  const tasks = getTasks();
+  return !tasks.some(task => task.title.toLowerCase() === title.toLowerCase());
 }
 
 
