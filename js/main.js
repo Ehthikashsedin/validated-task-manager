@@ -20,13 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnCreate').addEventListener('click', showForm);
     document.getElementById('btnCancel').addEventListener('click', showList);
 
-    // Initial render
+    
     renderList();
 
     setupForm((newTask) => {
         addTask(newTask);
         
-        // Re-render the list using Dev B's component
+        
         renderList();
 
         showList();
